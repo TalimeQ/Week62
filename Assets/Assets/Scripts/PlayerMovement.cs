@@ -24,23 +24,28 @@ public class PlayerMovement : MonoBehaviour
 	
 	void FixedUpdate()
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-        Move(h, v);
+        float horizontalThrow = Input.GetAxisRaw("Horizontal");
+        float verticalThrow = Input.GetAxisRaw("Vertical");
+
+        Move(horizontalThrow, verticalThrow);
         Turn();
-        Animate(h, v);
+        Animate(horizontalThrow, verticalThrow);
     }
-                                        
-    void Move (float h, float v)
+                                      
+    void Move (float horizontalThrow, float verticalThrow)
     {
-        movement.Set(h, 0f, v);
-        movement = movement.normalized * speed * Time.deltaTime;
+
+        Vector3 horizontalMovement = Time.deltaTime * speed * transform.right * horizontalThrow;
+        Vector3 verticalMovement = Time.deltaTime * speed * transform.forward * verticalThrow;
+
+        movement = horizontalMovement + verticalMovement;
+
+
         playerRigidbody.MovePosition(transform.position + movement);
     }
 
     void Turn()
     {
-        Debug.Log(Input.mousePosition);
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit boardHit;
         if (Physics.Raycast (cameraRay, out boardHit, cameraRayLenght, board))
@@ -53,9 +58,9 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    void Animate(float h, float v)
+    void Animate(float horizontalThrow, float VerticalThrow)
     {
-        bool isWalking = h != 0f || v != 0f;
+        bool isWalking = horizontalThrow != 0f || VerticalThrow != 0f;
 
         if (isWalking)
             animate.SetTrigger("Run");
