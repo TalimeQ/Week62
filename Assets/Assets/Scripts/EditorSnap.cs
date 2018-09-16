@@ -67,7 +67,6 @@ public class EditorSnap : MonoBehaviour {
             zSnapPos = Mathf.RoundToInt(transform.position.z / zSnap);
             if (turnYSnap) ySnapPos = Mathf.RoundToInt(transform.position.y / ySnap);
         }
-        print(new Vector3(xSnapPos, ySnapPos, zSnapPos));
         return new Vector3(xSnapPos, ySnapPos, zSnapPos);
     }
 }
