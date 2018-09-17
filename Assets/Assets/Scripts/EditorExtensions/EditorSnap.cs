@@ -17,7 +17,7 @@ public class EditorSnap : MonoBehaviour {
     [SerializeField] float ySnap = 10;
     [Tooltip("Editor Snap in Z axis")]
     [SerializeField] float zSnap = 10;
-
+    
 	void Start () {
 		
 	}
