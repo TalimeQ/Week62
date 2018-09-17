@@ -17,7 +17,7 @@ public class PunchingSystem : MonoBehaviour {
         if (Input.GetButtonDown("Fire1"))
         {
             RaycastHit hit;
-            if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward),out hit))
+            if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward),out hit, kid))
             {
                 hit.transform.SendMessage("Hit", SendMessageOptions.DontRequireReceiver);
                 
