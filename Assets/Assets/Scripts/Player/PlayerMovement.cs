@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
         animate = GetComponent<Animator>();
         board = LayerMask.GetMask("Board");
+        mainCamera.transform.parent = this.gameObject.transform;
     }
 	
 	void FixedUpdate()
