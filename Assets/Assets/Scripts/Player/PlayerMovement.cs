@@ -5,18 +5,24 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
-    public float speed = 6f;
+    [Header("Player Values")]
+    [SerializeField][Tooltip("MovementSpeed")]
+    float speed = 6f;
+    [SerializeField]
+    [Tooltip("Camera rotation Speed")]
+    float cameraSpeed = 10f;
 
     Vector3 movement;
     Rigidbody playerRigidbody;
     Animator animate;
+    Camera mainCamera;
     float cameraRayLenght = 200f;
     int board;
     
 
     void Awake()
     {
+        mainCamera = Camera.main;
         playerRigidbody = GetComponent<Rigidbody>();
         animate = GetComponent<Animator>();
         board = LayerMask.GetMask("Board");
@@ -27,18 +33,19 @@ public class PlayerMovement : MonoBehaviour
         float horizontalThrow = Input.GetAxisRaw("Horizontal");
         float verticalThrow = Input.GetAxisRaw("Vertical");
 
-        Move(horizontalThrow, verticalThrow);
+        Move(verticalThrow);
+        TurnCamera(horizontalThrow);
         Turn();
-        Animate(horizontalThrow, verticalThrow);
+        Animate( verticalThrow);
     }
                                       
-    void Move (float horizontalThrow, float verticalThrow)
+    void Move ( float verticalThrow)
     {
 
-        Vector3 horizontalMovement = Time.deltaTime * speed * transform.right * horizontalThrow;
+       
         Vector3 verticalMovement = Time.deltaTime * speed * transform.forward * verticalThrow;
 
-        movement = horizontalMovement + verticalMovement;
+        movement = verticalMovement;
 
 
         playerRigidbody.MovePosition(transform.position + movement);
@@ -57,10 +64,20 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
-
-    void Animate(float horizontalThrow, float VerticalThrow)
+    void TurnCamera(float horizontalThrow)
     {
-        bool isWalking = horizontalThrow != 0f || VerticalThrow != 0f;
+        float newCameraAngle = mainCamera.transform.localRotation.eulerAngles.y + horizontalThrow * Time.deltaTime * cameraSpeed;
+        float mainCameraEulerX = mainCamera.transform.localRotation.eulerAngles.x;
+        float mainCameraEulerZ = mainCamera.transform.localRotation.eulerAngles.z;
+
+        mainCamera.transform.localRotation = Quaternion.Euler(mainCameraEulerX,newCameraAngle,mainCameraEulerZ);
+
+
+
+    }
+    void Animate( float VerticalThrow)
+    {
+        bool isWalking = VerticalThrow != 0f;
 
         if (isWalking)
             animate.SetTrigger("Run");
