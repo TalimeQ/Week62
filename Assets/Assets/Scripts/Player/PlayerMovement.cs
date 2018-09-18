@@ -67,8 +67,6 @@ public class PlayerMovement : MonoBehaviour
         else
             animate.SetTrigger("Stop");
 
-        if (Input.GetButtonDown("Fire1"))
-            animate.SetTrigger("Punch");
     }
 
 }

@@ -4,27 +4,39 @@ using UnityEngine;
 
 public class PunchingSystem : MonoBehaviour {
 
-    int kid;
+    public float cooldown = 1f;
     public float Distance;
+
+    Animator animate;
+    float timer = 0;
+    int kidLayer;
+
     void Awake()
     {
-        kid = LayerMask.GetMask("Kid");
-
+        kidLayer = LayerMask.GetMask("Kid");
+        animate = GetComponent<Animator>();
+        timer += cooldown;
     }
  
 	void Update ()
     {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            RaycastHit hit;
-            if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward),out hit, kid))
-            {
-                hit.transform.SendMessage("Hit", SendMessageOptions.DontRequireReceiver);
-                
-            }
-
-
-        }
+        timer += Time.deltaTime;
+        if (Input.GetButtonDown("Fire1") && timer >= cooldown)
+            Punch();
 
 	}
+    void Punch()
+    {
+        timer = 0;
+        if (Input.GetButtonDown("Fire1"))
+            animate.SetTrigger("Punch");
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, kidLayer))
+        {
+            hit.transform.SendMessage("Hit", SendMessageOptions.DontRequireReceiver);
+            KidContoller kid = hit.collider.GetComponent<KidContoller>();
+            kid.GettingHit();
+        }
+
+    }
 }
