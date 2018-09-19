@@ -8,7 +8,9 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Player Values")]
     [SerializeField][Tooltip("MovementSpeed")]
-    float speed = 6f;
+    float walkSpeed = 6f;
+    [SerializeField]
+    float sprintSpeed = 12f;
     [SerializeField]
     [Tooltip("Camera rotation Speed")]
     float cameraSpeed = 10f;
@@ -16,28 +18,65 @@ public class PlayerMovement : MonoBehaviour
     float cameraDistance = 1f;
     [SerializeField]
     float lerpParameter = 1f;
+    [SerializeField]
+    float sprintTime = 10f;
+    [SerializeField]
+    float exhaustionPenalty = 5f;
+
+    float playerSpeed;
 
     Vector3 movement;
     Rigidbody playerRigidbody;
     Animator animate;
     Camera mainCamera;
-    float cameraRayLenght = 200f;
-    int board;
+
+    float sprintEnergy;
+    float energyRegen = 3f;
+    //float cameraRayLenght = 200f;
+    //int board;
     
 
     void Awake()
     {
+        playerSpeed = walkSpeed;
         mainCamera = Camera.main;
+        sprintEnergy = sprintTime;
         playerRigidbody = GetComponent<Rigidbody>();
         animate = GetComponent<Animator>();
-        board = LayerMask.GetMask("Board");
+        //board = LayerMask.GetMask("Board");
     }
 	
 	void FixedUpdate()
     {
         float horizontalThrow = Input.GetAxisRaw("Horizontal");
         float verticalThrow = Input.GetAxisRaw("Vertical");
-
+        if (sprintEnergy > 0f && Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            playerSpeed = sprintSpeed;
+            Debug.Log("startsprintu");
+            Debug.Log(sprintEnergy);
+        }
+        if(Input.GetKeyUp(KeyCode.LeftShift) || sprintEnergy <= 0f)
+        {
+            if (sprintEnergy <= 0f && playerSpeed == sprintSpeed)
+                sprintEnergy -= exhaustionPenalty;
+            playerSpeed = walkSpeed;
+            Debug.Log("koniec sprintu");
+            Debug.Log(sprintEnergy);
+            
+        }
+        if(playerSpeed==sprintSpeed)
+            sprintEnergy -= Time.deltaTime;
+        if (sprintEnergy < sprintTime && playerSpeed == walkSpeed)
+        {
+            sprintEnergy += energyRegen * Time.deltaTime;
+            Debug.Log(sprintEnergy);
+        }
+        if (sprintEnergy > sprintTime)
+        {
+            sprintEnergy = sprintTime;
+            Debug.Log("zmniejszenie z ponad limitu");
+        }
         Move(verticalThrow);
         TurnCamera(horizontalThrow);
         Turn();
@@ -48,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
     {
 
        
-        Vector3 verticalMovement = Time.deltaTime * speed * transform.forward * verticalThrow;
+        Vector3 verticalMovement = Time.deltaTime * playerSpeed * transform.forward * verticalThrow;
 
         movement = verticalMovement;
 
@@ -73,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
         cameraToPlayer.y = 0f;
         Quaternion newRotation = Quaternion.LookRotation(cameraToPlayer);
         playerRigidbody.MoveRotation(newRotation);
-            
+        playerRigidbody.freezeRotation = true;
 
     }
     void TurnCamera(float horizontalThrow)

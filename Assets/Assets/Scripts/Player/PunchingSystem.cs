@@ -33,7 +33,7 @@ public class PunchingSystem : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, kidLayer))
         {
-            hit.transform.SendMessage("Hit", SendMessageOptions.DontRequireReceiver);
+            //hit.transform.SendMessage("Hit", SendMessageOptions.DontRequireReceiver);
             KidContoller kid = hit.collider.GetComponent<KidContoller>();
             kid.GettingHit();
         }

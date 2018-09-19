@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class KidContoller : MonoBehaviour {
 
-    public int candyValue;
+    [SerializeField]
+    int candyValue;
     Animator animate;
+
 	void Awake ()
     {
         animate = GetComponent<Animator>();
