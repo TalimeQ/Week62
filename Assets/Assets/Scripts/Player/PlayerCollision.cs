@@ -23,6 +23,8 @@ public class PlayerCollision : MonoBehaviour {
                     Debug.Log("You dead boyo");
                     playerStateListener.OnPlayerDeath();
                     // TODO process death differently thats kinda messy
+                    Camera mainCamera = Camera.main;
+                    mainCamera.transform.parent = null;
                     Destroy(this.gameObject);
                     break;
                 case "Finish":
