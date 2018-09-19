@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
         Move(verticalThrow);
         TurnCamera(horizontalThrow);
         Turn();
+        
         Animate( verticalThrow);
     }
                                       
@@ -74,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         cameraToPlayer.y = 0f;
         Quaternion newRotation = Quaternion.LookRotation(cameraToPlayer);
         playerRigidbody.MoveRotation(newRotation);
-            
+        playerRigidbody.freezeRotation = true;
 
     }
     void TurnCamera(float horizontalThrow)
