@@ -33,5 +33,9 @@ public class PlayerCollision : MonoBehaviour {
                     break;
             }
         }
+        public void SignalizeDeath()
+        {
+            playerStateListener.OnPlayerDeath();
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Candy.Ui;
+using Candy.Player;
 
 public class ParentController : MonoBehaviour {
 
@@ -71,12 +72,12 @@ public class ParentController : MonoBehaviour {
             playerPosition = other.GetComponent<Transform>().position;
             //Debug.Log(Vector3.Distance(playerPosition, transform.position));
             if (Vector3.Distance(playerPosition, transform.position) <= catchRange)
-                CatchPlayer();
+                CatchPlayer(other);
         }
     }
-    void CatchPlayer()
+    void CatchPlayer(Collider playerCollider)
     {
-        Debug.Log("zlapany");
+        playerCollider.GetComponent<PlayerCollision>().SignalizeDeath();
 
     }
 
