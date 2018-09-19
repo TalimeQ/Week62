@@ -271,7 +271,6 @@ GameObject:
   - component: {fileID: 114522943868889658}
   - component: {fileID: 114258738082073022}
   - component: {fileID: 114708365950707750}
-  - component: {fileID: 114881177303754712}
   - component: {fileID: 136544344638344642}
   m_Layer: 0
   m_Name: Player
@@ -921,18 +920,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldown: 2
   Distance: 0
---- !u!114 &114881177303754712
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1599326006330020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f11e9f067fc7503439bbe12f1f9a14dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraOffset: {x: 0, y: 0, z: 0}
 --- !u!136 &136544344638344642
 CapsuleCollider:
   m_ObjectHideFlags: 1
