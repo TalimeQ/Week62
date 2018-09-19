@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Candy.Gameplay;
 using Candy.Player;
 
 namespace Candy.Control
@@ -13,7 +14,7 @@ namespace Candy.Control
        
         public GameObject levelToSpawn;
     }
-    public class GameController : MonoBehaviour , IPlayerListener {
+    public class GameController : MonoBehaviour , IPlayerListener , IKidListener  {
         [SerializeField]
         GameObject playerPersona;
         [SerializeField]
@@ -55,6 +56,17 @@ namespace Candy.Control
         }
 
         void SpawnPlayer()
+        {
+
+        }
+
+        public void OnKidHit()
+        {
+          
+                Invoke("RespawnKid", 10);
+        }
+        
+        void RespawnKid()
         {
 
         }
