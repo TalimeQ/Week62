@@ -28,7 +28,6 @@ public class KidContoller : MonoBehaviour {
     {
         animate.SetTrigger("PunchKid");
         animate.SetTrigger("Sit"); // kombinuje jak w miare plynnie przelaczyc miedzy animacjami
-        ScoreManager.score += candyValue;
-        kidHitListener.OnKidHit();
+        kidHitListener.OnKidHit(candyValue);
     }
 }

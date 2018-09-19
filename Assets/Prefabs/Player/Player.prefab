@@ -901,10 +901,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51c5cd5953e40b545b5f9b022a1b6e12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  walkSpeed: 6
+  sprintSpeed: 12
   cameraSpeed: 2
   cameraDistance: -0.5
   lerpParameter: 0.2
+  sprintTime: 10
+  exhaustionPenalty: 5
 --- !u!114 &114708365950707750
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Candy.Gameplay;
 using Candy.Player;
+using Candy.Ui;
+using TMPro;
 
 namespace Candy.Control
 {
@@ -14,29 +16,36 @@ namespace Candy.Control
        
         public GameObject levelToSpawn;
     }
-    public class GameController : MonoBehaviour , IPlayerListener , IKidListener  {
+    public class GameController : MonoBehaviour , IPlayerListener , IKidListener, IStartListener  {
+
         [SerializeField]
         GameObject playerPersona;
         [SerializeField]
         List<LevelParams> levelParams = new List<LevelParams>();
+        [SerializeField]
+        ScoreManager scoreManager;
+        [SerializeField]
+        MenuController menuController;
+        [SerializeField]
+        TextMeshProUGUI scoreText;
+        [SerializeField]
+        List<Transform> PlayerSpawns = new List<Transform>();
+
 
         private int  currentLevel = 0;
         public int CurrentLevel { get{ return currentLevel; } set { currentLevel = value; } }
 
         void Start()
         {
-            LevelStart(0);
+           
         }
         void LevelStart(int levelToStart = 0)
         {
-            // Deactivate old level
-            levelParams[currentLevel].levelToSpawn.SetActive(false);
+            scoreText.gameObject.SetActive(true);
 
-            // Activate new level
-            levelParams[levelToStart].levelToSpawn.SetActive(true);
-            Transform spawnPosition = levelParams[levelToStart].spawnPosition;
+            Transform spawnPosition = PlayerSpawns[UnityEngine.Random.Range(0, PlayerSpawns.Count)];
+           
 
-            
             currentLevel = levelToStart;
             GameObject player = Instantiate(playerPersona, spawnPosition.position,Quaternion.identity);
             Debug.Log(player);
@@ -45,9 +54,9 @@ namespace Candy.Control
 
         public void OnPlayerDeath()
         {
-            Debug.Log("Game Controller Processing death!");
-            // Temporary bo jestem kurła idioto
-            LevelStart(0);
+            scoreText.gameObject.SetActive(false);
+            menuController.ShowDeathMenu();
+          
         }
 
         public void OnPlayerFinish()
@@ -60,15 +69,20 @@ namespace Candy.Control
 
         }
 
-        public void OnKidHit()
+        public void OnKidHit(int candyValue)
         {
-          
+                scoreManager.UpdateScore(candyValue);
                 Invoke("RespawnKid", 10);
         }
         
         void RespawnKid()
         {
 
+        }
+
+        public void OnMenuClicked()
+        {
+            LevelStart(0);
         }
     }
 }

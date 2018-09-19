@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Candy.Ui;
 
 public class ParentController : MonoBehaviour {
 
@@ -18,11 +19,13 @@ public class ParentController : MonoBehaviour {
     float chaseLeft = 0f;
     Transform player;
     Vector3 playerPosition;
+    ScoreManager scoreManager;
 
     Rigidbody parentRigidBody;
 
     void Awake ()
     {
+        scoreManager = FindObjectOfType<ScoreManager>();
         animate = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         nav = GetComponent<NavMeshAgent>();
@@ -52,7 +55,7 @@ public class ParentController : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (ScoreManager.score >= triggerValue && chaseLeft == 0f && other.tag == "Player")
+        if (scoreManager.Score >= triggerValue && chaseLeft == 0f && other.tag == "Player")
         {
             chaseLeft = chaseTime;
             animate.SetTrigger("ParentGo");
@@ -61,7 +64,7 @@ public class ParentController : MonoBehaviour {
     
     void OnTriggerStay(Collider other)
     {
-        if (ScoreManager.score >= triggerValue && other.tag == "Player")
+        if (scoreManager.Score >= triggerValue && other.tag == "Player")
         {
             chaseLeft = chaseTime;
                         animate.SetTrigger("ParentGo");
