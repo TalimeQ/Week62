@@ -43,7 +43,12 @@ public class PlayerMovement : MonoBehaviour
         sprintEnergy = sprintTime;
         playerRigidbody = GetComponent<Rigidbody>();
         animate = GetComponent<Animator>();
+<<<<<<< HEAD
         //board = LayerMask.GetMask("Board");
+=======
+        board = LayerMask.GetMask("Board");
+        mainCamera.transform.parent = this.gameObject.transform;
+>>>>>>> 50f8b479b92529021526916bb0e2af40a89e2075
     }
 	
 	void FixedUpdate()
@@ -80,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
         Move(verticalThrow);
         TurnCamera(horizontalThrow);
         Turn();
+        
         Animate( verticalThrow);
     }
                                       

@@ -22,7 +22,10 @@ namespace Candy.Control
         private int  currentLevel = 0;
         public int CurrentLevel { get{ return currentLevel; } set { currentLevel = value; } }
 
-
+        void Start()
+        {
+            LevelStart(0);
+        }
         void LevelStart(int levelToStart = 0)
         {
             // Deactivate old level
@@ -35,7 +38,7 @@ namespace Candy.Control
             
             currentLevel = levelToStart;
             GameObject player = Instantiate(playerPersona, spawnPosition.position,Quaternion.identity);
-            
+            Debug.Log(player);
 
         }
 
