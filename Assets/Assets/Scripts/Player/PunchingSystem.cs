@@ -10,12 +10,14 @@ public class PunchingSystem : MonoBehaviour {
     Animator animate;
     float timer = 0;
     int kidLayer;
+    AudioSource punchSound;
 
     void Awake()
     {
         kidLayer = LayerMask.GetMask("Kid");
         animate = GetComponent<Animator>();
         timer += cooldown;
+        punchSound = GetComponent<AudioSource>();
     }
  
 	void Update ()
@@ -28,8 +30,9 @@ public class PunchingSystem : MonoBehaviour {
     void Punch()
     {
         timer = 0;
-        if (Input.GetButtonDown("Fire1"))
-            animate.SetTrigger("Punch");
+        animate.SetTrigger("Punch");
+        punchSound.Play();
+
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, kidLayer))
         {

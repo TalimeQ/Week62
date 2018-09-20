@@ -30,6 +30,12 @@ namespace Candy.Control
         TextMeshProUGUI scoreText;
         [SerializeField]
         List<Transform> PlayerSpawns = new List<Transform>();
+        [SerializeField]
+        GameObject kidPersona;
+        [SerializeField]
+        int kidCount = 20;
+        [SerializeField]
+        List<Transform> kidSpawns = new List<Transform>();
 
 
         private int  currentLevel = 0;
@@ -48,6 +54,12 @@ namespace Candy.Control
 
             currentLevel = levelToStart;
             GameObject player = Instantiate(playerPersona, spawnPosition.position,Quaternion.identity);
+            for(int i=0; i<kidCount;i++)
+            {
+                spawnPosition = kidSpawns[UnityEngine.Random.Range(0, kidSpawns.Count)];
+                GameObject kid = Instantiate(kidPersona, spawnPosition.position, Quaternion.identity);
+
+            }
             Debug.Log(player);
 
         }
@@ -56,7 +68,8 @@ namespace Candy.Control
         {
             scoreText.gameObject.SetActive(false);
             menuController.ShowDeathMenu();
-          
+            Destroy(this.gameObject);
+
         }
 
         public void OnPlayerFinish()
@@ -72,7 +85,7 @@ namespace Candy.Control
         public void OnKidHit(int candyValue)
         {
                 scoreManager.UpdateScore(candyValue);
-                Invoke("RespawnKid", 10);
+                Invoke("RespawnKid", 60);
         }
         
         void RespawnKid()

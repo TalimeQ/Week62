@@ -57,16 +57,12 @@ public class PlayerMovement : MonoBehaviour
         if (sprintEnergy > 0f && Input.GetKeyDown(KeyCode.LeftShift))
         {
             playerSpeed = sprintSpeed;
-            Debug.Log("startsprintu");
-            Debug.Log(sprintEnergy);
         }
         if(Input.GetKeyUp(KeyCode.LeftShift) || sprintEnergy <= 0f)
         {
             if (sprintEnergy <= 0f && playerSpeed == sprintSpeed)
                 sprintEnergy -= exhaustionPenalty;
             playerSpeed = walkSpeed;
-            Debug.Log("koniec sprintu");
-            Debug.Log(sprintEnergy);
             
         }
         if(playerSpeed==sprintSpeed)
@@ -74,12 +70,10 @@ public class PlayerMovement : MonoBehaviour
         if (sprintEnergy < sprintTime && playerSpeed == walkSpeed)
         {
             sprintEnergy += energyRegen * Time.deltaTime;
-            Debug.Log(sprintEnergy);
         }
         if (sprintEnergy > sprintTime)
         {
             sprintEnergy = sprintTime;
-            Debug.Log("zmniejszenie z ponad limitu");
         }
         Move(verticalThrow);
         TurnCamera(horizontalThrow);
