@@ -11,6 +11,9 @@ public class MenuController : MonoBehaviour {
         GameObject startPanel;
         [SerializeField]
         GameObject deathMenu;
+        [SerializeField]
+        GameObject pauseMenu;
+
 	    void Start ()
         {
 		    if(startPanel == null)
@@ -26,6 +29,10 @@ public class MenuController : MonoBehaviour {
 	    public void ShowDeathMenu()
         {
             deathMenu.SetActive(true);
+        }
+        public void ShowPauseMenu()
+        {
+            pauseMenu.SetActive(true);
         }
 }
 }

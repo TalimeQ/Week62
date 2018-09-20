@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Candy.Control;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     float energyRegen = 3f;
     //float cameraRayLenght = 200f;
     //int board;
+    GameController gameController;
     
 
     void Awake()
@@ -43,15 +44,26 @@ public class PlayerMovement : MonoBehaviour
         sprintEnergy = sprintTime;
         playerRigidbody = GetComponent<Rigidbody>();
         animate = GetComponent<Animator>();
-
+        gameController = FindObjectOfType<GameController>();
         //board = LayerMask.GetMask("Board");
 
         mainCamera.transform.parent = this.gameObject.transform;
 
     }
-	
-	void FixedUpdate()
+    private void Start()
     {
+       
+    }
+
+    void FixedUpdate()
+    {
+        if (Input.GetButtonDown("Cancel"))
+        {
+            gameController.OnPauseMenu();
+            
+        }
+        print(Time.timeScale);
+        if (Time.timeScale <= 0.01) return;
         float horizontalThrow = Input.GetAxisRaw("Horizontal");
         float verticalThrow = Input.GetAxisRaw("Vertical");
         if (sprintEnergy > 0f && Input.GetKeyDown(KeyCode.LeftShift))

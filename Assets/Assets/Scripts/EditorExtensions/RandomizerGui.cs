@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
+#if (UNITY_EDITOR) 
 [CustomEditor(typeof(Randomizer))]
 public class RandomizerGui : Editor {
 
@@ -25,3 +25,4 @@ public class RandomizerGui : Editor {
     }
 
 }
+#endif

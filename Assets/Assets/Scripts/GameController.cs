@@ -16,7 +16,7 @@ namespace Candy.Control
        
         public GameObject levelToSpawn;
     }
-    public class GameController : MonoBehaviour , IPlayerListener , IKidListener, IStartListener  {
+    public class GameController : MonoBehaviour , Candy.Player.IPlayerListener , IKidListener, IStartListener  {
 
         [SerializeField]
         GameObject playerPersona;
@@ -47,8 +47,11 @@ namespace Candy.Control
         }
         void LevelStart(int levelToStart = 0)
         {
+            
             scoreText.gameObject.SetActive(true);
-
+            
+            
+            
             Transform spawnPosition = PlayerSpawns[UnityEngine.Random.Range(0, PlayerSpawns.Count)];
            
 
@@ -71,6 +74,7 @@ namespace Candy.Control
             menuController.ShowDeathMenu();
             GameObject[] massacre;
             massacre = GameObject.FindGameObjectsWithTag("Kid");
+            
             foreach (GameObject kid in massacre)
             {
                 Destroy(kid);
@@ -113,6 +117,11 @@ namespace Candy.Control
         public void OnMenuClicked()
         {
             LevelStart(0);
+        }
+        public void OnPauseMenu()
+        {
+            menuController.ShowPauseMenu();
+            Time.timeScale = 0;
         }
 
     }

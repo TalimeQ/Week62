@@ -78,6 +78,7 @@ public class ParentController : MonoBehaviour {
     }
     void CatchPlayer(Collider playerCollider)
     {
+        Camera.main.transform.parent = null;
         playerCollider.GetComponent<PlayerCollision>().SignalizeDeath(playerCollider.gameObject);
 
     }
