@@ -38,6 +38,8 @@ public class PlayerCollision : MonoBehaviour {
         public void SignalizeDeath(GameObject player)
         {
             playerStateListener.OnPlayerDeath(player);
+            Camera mainCamera = Camera.main;
+            mainCamera.transform.parent = null;
         }
     }
 }

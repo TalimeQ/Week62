@@ -5,7 +5,8 @@ using UnityEngine.AI;
 using Candy.Ui;
 using Candy.Player;
 
-public class ParentController : MonoBehaviour {
+public class ParentController : MonoBehaviour
+{
 
     [SerializeField]
     float chaseTime = 10f;
@@ -21,19 +22,21 @@ public class ParentController : MonoBehaviour {
     public static Transform playerForParent;
     Vector3 playerPosition;
     ScoreManager scoreManager;
+    float kucze = 0f;
+
 
     Transform parentRigidBody;
 
-    void Awake ()
+    void Awake()
     {
         scoreManager = FindObjectOfType<ScoreManager>();
         animate = GetComponent<Animator>();
         nav = GetComponent<NavMeshAgent>();
         parentRigidBody = GetComponent<Transform>();
     }
-	
-	
-	void Update ()
+
+
+    void Update()
     {
         if (chaseLeft > 0f)
         {
@@ -42,18 +45,22 @@ public class ParentController : MonoBehaviour {
             animate.SetTrigger("ParentGo");
             Debug.Log(chaseLeft);
         }
+        else if ((parentRigidBody.position == standardPosition) || kucze > 10f)
+        {
+            kucze = 0f;
+            parentRigidBody.position = standardPosition;
+            animate.SetTrigger("ParentStop");
+        }
         else if (parentRigidBody.position != standardPosition)
         {
             Debug.Log("wracaj");
             nav.SetDestination(standardPosition);
-            standardPosition.y = parentRigidBody.position.y;
+            //standardPosition.y = parentRigidBody.position.y;
             animate.SetTrigger("ParentGo");
+            kucze += Time.deltaTime;
         }
-        else if((parentRigidBody.position == standardPosition))
-        {
-            animate.SetTrigger("ParentStop");
-        }
-	}
+
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -63,13 +70,13 @@ public class ParentController : MonoBehaviour {
             animate.SetTrigger("ParentGo");
         }
     }
-    
+
     void OnTriggerStay(Collider other)
     {
         if (scoreManager.Score >= triggerValue && other.tag == "Player")
         {
             chaseLeft = chaseTime;
-                        animate.SetTrigger("ParentGo");
+            animate.SetTrigger("ParentGo");
             playerPosition = other.GetComponent<Transform>().position;
             //Debug.Log(Vector3.Distance(playerPosition, transform.position));
             if (Vector3.Distance(playerPosition, transform.position) <= catchRange)
@@ -78,7 +85,6 @@ public class ParentController : MonoBehaviour {
     }
     void CatchPlayer(Collider playerCollider)
     {
-        Camera.main.transform.parent = null;
         playerCollider.GetComponent<PlayerCollision>().SignalizeDeath(playerCollider.gameObject);
 
     }
