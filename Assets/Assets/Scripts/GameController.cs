@@ -60,15 +60,23 @@ namespace Candy.Control
                 GameObject kid = Instantiate(kidPersona, spawnPosition.position, Quaternion.identity);
 
             }
+            ParentController.playerForParent = GameObject.FindGameObjectWithTag("Player").transform;
             Debug.Log(player);
 
         }
 
-        public void OnPlayerDeath()
+        public void OnPlayerDeath(GameObject player)
         {
             scoreText.gameObject.SetActive(false);
             menuController.ShowDeathMenu();
-            Destroy(this.gameObject);
+            GameObject[] massacre;
+            massacre = GameObject.FindGameObjectsWithTag("Kid");
+            foreach (GameObject kid in massacre)
+            {
+                Destroy(kid);
+            }
+            Destroy(player);
+            
 
         }
 
@@ -82,20 +90,30 @@ namespace Candy.Control
 
         }
 
-        public void OnKidHit(int candyValue)
+        public void OnKidHit(int candyValue, GameObject kid)
         {
-                scoreManager.UpdateScore(candyValue);
-                Invoke("RespawnKid", 60);
+            scoreManager.UpdateScore(candyValue);
+            Invoke("RespawnKid", 10);
+            StartCoroutine(TimedDestruction(kid, 2f));
+
         }
-        
+        IEnumerator TimedDestruction(GameObject timedObject, float delayTime)
+        {
+            yield return new WaitForSeconds(delayTime);
+            Destroy(timedObject);
+
+        }
         void RespawnKid()
         {
-
+            Transform spawnPosition;
+            spawnPosition = kidSpawns[UnityEngine.Random.Range(0, kidSpawns.Count)];
+            GameObject kid = Instantiate(kidPersona, spawnPosition.position, Quaternion.identity);
         }
 
         public void OnMenuClicked()
         {
             LevelStart(0);
         }
+
     }
 }

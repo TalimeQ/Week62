@@ -10,12 +10,13 @@ public class KidContoller : MonoBehaviour {
     int candyValue;
     Animator animate;
     IKidListener kidHitListener;
-
+    AudioSource scream;
 
 	void Awake ()
     {
         animate = GetComponent<Animator>();
         kidHitListener = FindObjectOfType<GameController>();
+        scream = GetComponent<AudioSource>();
 	}
 	
 
@@ -27,7 +28,8 @@ public class KidContoller : MonoBehaviour {
     public void GettingHit()
     {
         animate.SetTrigger("PunchKid");
+        scream.Play();
         animate.SetTrigger("Sit"); // kombinuje jak w miare plynnie przelaczyc miedzy animacjami
-        kidHitListener.OnKidHit(candyValue);
+        kidHitListener.OnKidHit(candyValue, this.gameObject);
     }
 }

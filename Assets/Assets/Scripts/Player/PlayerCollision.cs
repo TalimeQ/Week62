@@ -9,10 +9,10 @@ public class PlayerCollision : MonoBehaviour {
 
         IPlayerListener playerStateListener;
 
+
         void Start () {
             playerStateListener = FindObjectOfType<GameController>();
-                
-	    }
+        }
 
         // Deathzones trigger
         private void OnTriggerEnter(Collider other)
@@ -21,7 +21,7 @@ public class PlayerCollision : MonoBehaviour {
             {
                 case "KillZone":
                     Debug.Log("You dead boyo");
-                    playerStateListener.OnPlayerDeath();
+                    playerStateListener.OnPlayerDeath(this.gameObject);
                     // TODO process death differently thats kinda messy
                     Camera mainCamera = Camera.main;
                     mainCamera.transform.parent = null;
@@ -35,9 +35,9 @@ public class PlayerCollision : MonoBehaviour {
                     break;
             }
         }
-        public void SignalizeDeath()
+        public void SignalizeDeath(GameObject player)
         {
-            playerStateListener.OnPlayerDeath();
+            playerStateListener.OnPlayerDeath(player);
         }
     }
 }

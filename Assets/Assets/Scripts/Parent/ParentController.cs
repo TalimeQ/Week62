@@ -18,19 +18,18 @@ public class ParentController : MonoBehaviour {
     Animator animate;
     NavMeshAgent nav;
     float chaseLeft = 0f;
-    Transform player;
+    public static Transform playerForParent;
     Vector3 playerPosition;
     ScoreManager scoreManager;
 
-    Rigidbody parentRigidBody;
+    Transform parentRigidBody;
 
     void Awake ()
     {
         scoreManager = FindObjectOfType<ScoreManager>();
         animate = GetComponent<Animator>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
         nav = GetComponent<NavMeshAgent>();
-        parentRigidBody = GetComponent<Rigidbody>();
+        parentRigidBody = GetComponent<Transform>();
     }
 	
 	
@@ -39,16 +38,18 @@ public class ParentController : MonoBehaviour {
         if (chaseLeft > 0f)
         {
             chaseLeft -= Time.deltaTime;
-            nav.SetDestination(player.position);
+            nav.SetDestination(playerForParent.position);
             animate.SetTrigger("ParentGo");
+            Debug.Log(chaseLeft);
         }
-        else if (parentRigidBody.transform.position != standardPosition)
+        else if (parentRigidBody.position != standardPosition)
         {
+            Debug.Log("wracaj");
             nav.SetDestination(standardPosition);
-            standardPosition.y = parentRigidBody.transform.position.y;
+            standardPosition.y = parentRigidBody.position.y;
             animate.SetTrigger("ParentGo");
         }
-        else if((parentRigidBody.transform.position == standardPosition))
+        else if((parentRigidBody.position == standardPosition))
         {
             animate.SetTrigger("ParentStop");
         }
@@ -77,7 +78,7 @@ public class ParentController : MonoBehaviour {
     }
     void CatchPlayer(Collider playerCollider)
     {
-        playerCollider.GetComponent<PlayerCollision>().SignalizeDeath();
+        playerCollider.GetComponent<PlayerCollision>().SignalizeDeath(playerCollider.gameObject);
 
     }
 

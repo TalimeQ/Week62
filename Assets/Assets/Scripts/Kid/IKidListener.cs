@@ -6,6 +6,6 @@ namespace Candy.Gameplay
 { 
     public interface IKidListener {
 
-        void OnKidHit(int candyValue);
+        void OnKidHit(int candyValue, GameObject kid);
     }
 }

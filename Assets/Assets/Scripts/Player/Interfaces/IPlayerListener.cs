@@ -9,7 +9,7 @@ namespace Candy.Player
         /// <summary>
         ///  Called when player is dead.
         /// </summary>
-        void OnPlayerDeath();
+        void OnPlayerDeath(GameObject player);
         /// <summary>
         ///  Called when player finishes level;
         /// </summary>

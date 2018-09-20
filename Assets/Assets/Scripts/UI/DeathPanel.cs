@@ -17,7 +17,7 @@ namespace Candy.Ui
             {
             restartListener = FindObjectOfType<GameController>();
             candyDisplay = FindObjectOfType<ScoreManager>().Score;
-            finishedScoreText.text = candyDisplay + " candies";
+            finishedScoreText.text = candyDisplay + " kids";
             }
             public void OnRetryPressed()
             {

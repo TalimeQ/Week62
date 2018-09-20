@@ -25,7 +25,7 @@ public class ScoreManager : MonoBehaviour {
                     return;
                 }
                 score += scoreToAdd;
-                scoreText.text = "Score: " + score;
+                scoreText.text = "Kids beaten: " + score;
         }
 }
 }
