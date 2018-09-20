@@ -12,7 +12,7 @@ public class ScoreManager : MonoBehaviour {
         [SerializeField]
         TextMeshProUGUI scoreText;
         int score = 0;
-        public int Score { get { return score; } }
+        public int Score { get { return score; } set { score = value; } }
         public void ResetScore()
         {
             score = 0;

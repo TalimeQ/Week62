@@ -49,9 +49,9 @@ namespace Candy.Control
         {
             
             scoreText.gameObject.SetActive(true);
-            
-            
-            
+            scoreManager.Score = 0;
+            scoreManager.UpdateScore(0);
+
             Transform spawnPosition = PlayerSpawns[UnityEngine.Random.Range(0, PlayerSpawns.Count)];
            
 
